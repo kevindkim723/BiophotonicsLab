@@ -1,3 +1,5 @@
 temp=52.5'C -- Tue 8 Jun 00:55:31 BST 2021
 temp=52.1'C -- Tue 8 Jun 00:55:40 BST 2021
 temp=52.1'C -- Tue 8 Jun 01:10:47 BST 2021
+temp=49.1'C -- Thu 17 Jun 22:09:08 BST 2021
+temp=48.2'C -- Thu 17 Jun 22:09:10 BST 2021

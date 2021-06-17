@@ -46,8 +46,11 @@ led_indices = gseq(8)-3
 print(led_indices)
 while (True):
     for i in range(numpixels):
-       pixels[led_indices[i]] = (255,0,0)
-       time.sleep(.01)
+        pixels[led_indices[i]] = ((2,255,255)) 
+        time.sleep(.1)
+        pixels.fill((0,0,0))
+
+        time.sleep(.01)
 
 
     pixels.fill((0,0,0))

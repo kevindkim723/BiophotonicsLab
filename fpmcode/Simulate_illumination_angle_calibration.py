@@ -6,6 +6,9 @@ import math
 import matplotlib.pyplot as plt
 from matplotlib import colors
 import numpy as np
+from scipy.ndimage.filters import gaussian_filter
+from math import sqrt
+
 
 #creating the input amplitude/phase objects
 from skimage import data
@@ -13,24 +16,10 @@ objectAmplitude = np.double(data.camera())
 phase = np.double(data.brick())
 phase = np.pi * phase / np.max(phase)
 obj = objectAmplitude * np.exp(1j * phase)
-fig, ax = plt.subplots(1,2)
 
 N, M = obj.shape
 
 dims=[0,N,0,M]
-amplitude_img = ax[0].imshow(np.abs(obj))
-phase_img = ax[1].imshow(np.angle(obj))
-
-ax[0].set_title('Sample Amplitude')
-ax[1].set_title('Sample Phase')
-
-ax[0].set_xlabel('x')
-ax[0].set_ylabel('y', rotation = 0)
-
-ax[1].set_xlabel('x')
-ax[1].set_ylabel('y', rotation = 0)
-
-
 #output: the kx_relative and ky_relative vectors
 def XYtoRel(X,Y,LEDheight):       
     X,Y = np.meshgrid(X,Y)
@@ -131,16 +120,61 @@ def shiftCompare(xshift,yshift):
     ax[1].set_title("x shift: " + str(xshift) +"\nyshift: " + str(yshift))
     plt.tight_layout()
     plt.show()
+    return imSeqShifts, imSeqLowRes
+#plots intensity vs r value of image derivative and second derivative values (image gradients)
+#input: low-resolution brightfield image
 
 
 
-# In[91]:
+def gradientImage(im):
+    newim = np.zeros((len(im), len(im[0])))
+    gr2 = np.zeros((len(newim), len(newim[0])))
+    print(newim.shape)
+    for i in range(1,len(im)-1):
+        for j in range(1,len(im[0])-1):
+            grady = im.item(i,j+1) - im.item(i,j-1)
+            gradx =im.item(i+1,j)-im.item(i-1,j)
+            newim[i,j] = sqrt(gradx**2 + grady**2)
+    for i in range(1,len(newim)-1):
+        for j in range(1,len(newim[0])-1):
+            grady = newim.item(i,j+1) - newim.item(i,j-1)
+            gradx =newim.item(i+1,j)-newim.item(i-1,j)
+            gr2[i,j] = sqrt(gradx**2 + grady**2)
+    return newim,gr2
+
+  
+def findEdge(im, imseq,kxm,kym,cutoffFrequency):
+    imseq = np.abs((fftshift(fft2(np.double(imseq)))))
+    im = np.abs((fftshift(fft2(np.double(im))))) #obtain fourier spectrum of image
+    im_mean = np.mean(imseq,axis=2) #divide out the mean spectrum (across all images)
+    im_blurred = gaussian_filter(im_normalized, sigma=2) #convolving with the Gaussian Kernel with std.dev = 2 pixels
+    
+    w_2NA = np.sqrt((kxm**2 + kym **2) < cutoffFrequency ** 2)
+    im_gradient = gradientImage(im_blurred)[0]
+    im_gradient2 = gradientImage(im_blurred)[1]
+    fig, ax = plt.subplots(1,4)
+    him0 = ax[0].imshow(np.abs(im),norm=colors.LogNorm())
+    him1 = ax[1].imshow(np.abs(im_normalized),norm=colors.LogNorm())
+    him2 = ax[2].imshow(np.abs(im_blurred),norm=colors.LogNorm())
+    him3 = ax[3].imshow(np.abs(im_gradient),norm=colors.LogNorm())
+
+    
+    ax[0].set_title("Low-Res Fourier Spectrum")
+    ax[1].set_title("Fourier Spectrum Divided by Mean")
+    ax[2].set_title("Mean spectrum convolved with gaussian kernel!")
+    ax[3].set_title("Gradient (1st order)")
+    plt.show()
 
 
-shiftCompare(0,-4.5)
 
 
-# In[ ]:
+
+
+
+
+seq_shifted ,seq = shiftCompare(0,-4.5)
+findEdge(seq[:,:,112],seq)
+
 
 
 

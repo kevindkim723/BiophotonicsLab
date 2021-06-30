@@ -1,3 +1,4 @@
+#adapted from https://github.com/Waller-Lab/Angle_SelfCalibration/blob/master/Utilities/calCoord.m
 import numpy as np
 
 def calCoord(freqUV,imSz,dpix_c,mag,NA,wavelength):
@@ -23,8 +24,23 @@ def calCoord(freqUV,imSz,dpix_c,mag,NA,wavelength):
     xI,yI = np.meshgrid(xpix, ypix)
 
     #new pixel indices in terms of kx, ky?
+    #basically k-space coordinates in terms of pixels.
     xCent = xMid + uCent * con
     yCent = yMid + uCent * con
+
+    freqXY=(xCent, yCent)
+    XYmid = (xMid, yMid)
+
+    #Radius of NA (in pixels)
+    radP = NA * con / wavelength
+    #k space coordinates (1/um)
+    uI = (xI- xMid)/con
+    yI = (yI- xMid)/con
+    return freqXY, con, radP, xI, yI, uI, vI, XYmid;
+
+
+
+
 
     
 

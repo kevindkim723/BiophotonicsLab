@@ -12,4 +12,10 @@ NA = metadata.objective.na
 dpix_c = metadata.camera.pixel_size_um;
 wavelength = metadata.illumination.wavelength_um;
 freqUV = metadata.source_list.na_design/wavelength
+I = data['data']
+print(I.shape)
+fig,ax = plt.subplots(1,1)
+him=ax.imshow(np.abs(fftshift(fft2(I[:,:,0],axes=[0,1]),axes=[1,0])),norm=colors.LogNorm())
+plt.show()
+
 

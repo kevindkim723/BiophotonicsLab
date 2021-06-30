@@ -12,8 +12,10 @@ from scipy.ndimage.filters import gaussian_filter
 #sigmaG: sigma=2 within gaussian filtering
 
 def calFI(I,xI, yI,XYmid, radP, sigmaG):
-    FI = fftshift(fft2(I))
+    FI = fftshift(fft2(I),axes=[1,0]),axes=[1,0])
     avgFI = np.mean(np.abs(FI),2)
+    w_2NA=sqrt((xI-XYmid[0]).^2 + (yI-XYmid[1]).^2)<2*radP; #Outside 2NA support
+
     
 
 

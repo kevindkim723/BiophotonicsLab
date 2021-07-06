@@ -19,8 +19,8 @@ def calCoord(freqUV,imSz,dpix_c,mag,NA,wavelength):
     xMid = imSz//2 + 1 
     yMid = imSz//2 + 1
     #creates meshgrid of the pixel indexes within the image
-    xpix = np.linspace(-(imSz//2), imSz//2, imSz)
-    ypix = np.linspace(-(imSz//2), imSz//2, imSz)
+    xpix = np.linspace(0, imSz-1, imSz)
+    ypix = np.linspace(0,imSz-1,imSz)
     xI,yI = np.meshgrid(xpix, ypix)
 
     #new pixel indices in terms of kx, ky?

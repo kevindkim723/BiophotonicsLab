@@ -13,8 +13,8 @@ def calCoord(freqUV,imSz,dpix_c,mag,NA,wavelength):
     con = imSz * dpix_c/mag
 
     #kx, ky vectors
-    uCent = freqUV(:,0) 
-    vCent = freqUV(:,1)
+    uCent = freqUV[:,0] 
+    vCent = freqUV[:,1]
     #index of middle of image
     xMid = imSz//2 + 1 
     yMid = imSz//2 + 1
@@ -35,7 +35,7 @@ def calCoord(freqUV,imSz,dpix_c,mag,NA,wavelength):
     radP = NA * con / wavelength
     #k space coordinates (1/um)
     uI = (xI- xMid)/con
-    yI = (yI- xMid)/con
+    vI = (yI- xMid)/con
     return freqXY, con, radP, xI, yI, uI, vI, XYmid;
 
 

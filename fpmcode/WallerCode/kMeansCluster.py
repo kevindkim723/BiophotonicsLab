@@ -31,9 +31,9 @@ def kMeans2Cluster(X):
         dist_c1 = abs(X[i]-centroid_1)
         dist_c2 = abs(X[i] -centroid_2)
         if dist_c1 < dist_c2:
-            Y[i] = 1
+            Y[i] = 0
         else:
-            Y[i] = 2
+            Y[i] = 1
     return Y,newcentroid_1,newcentroid_2;
 
 """
@@ -59,7 +59,6 @@ def calcCentroid(X, centroid_1, centroid_2):
     return c1, c2
         
 
-print(kMeans2Cluster([4.0, 4.1, 4.2, -50, 200.2, 200.4, 200.9, 80, 100, 102]))
         
 
 

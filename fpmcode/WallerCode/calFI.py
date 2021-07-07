@@ -27,7 +27,7 @@ def calFI(I,xI, yI,XYmid, radP, sigmaG):
     avgFI2 = np.where(avgFI < 3*mT, 3*mT, avgFI)#if values are less than 3*mT then floor them to the 3*mT (essentially getting rid of noise outside the 2NA support).
     FIdiv = FI/np.repeat(avgFI2[:,:,np.newaxis], FI.shape[2],axis=2) #dividing out by the floored average
     FIdivG = gaussian_filter(np.abs(FIdiv), sigma=2) #convolving with the Gaussian Kernel with std.dev = 2 pixels
-    return FIdivG
+    return FIdiv, FIdivG, FI, w_2NA
     
 
 

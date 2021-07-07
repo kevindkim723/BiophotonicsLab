@@ -16,8 +16,8 @@ def calCoord(freqUV,imSz,dpix_c,mag,NA,wavelength):
     uCent = freqUV[:,0] 
     vCent = freqUV[:,1]
     #index of middle of image
-    xMid = imSz//2 + 1 
-    yMid = imSz//2 + 1
+    xMid = imSz//2 
+    yMid = imSz//2
     #creates meshgrid of the pixel indexes within the image
     xpix = np.linspace(0, imSz-1, imSz)
     ypix = np.linspace(0,imSz-1,imSz)

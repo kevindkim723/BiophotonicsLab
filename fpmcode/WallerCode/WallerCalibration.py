@@ -5,6 +5,7 @@ from numpy.fft import fft, ifft, fft2, ifft2, fftshift, ifftshift
 import os
 from calCoord import calCoord
 from calFI import calFI
+from calDF import calDF
 import scipy.io as sio
 fname = "/home/kevin/Harvey Mudd/biophotonics/Angle_SelfCalibration-master/data/LED_cheekCell_comp_misaligned_input.mat"
 fname2 = "/home/kevin/Harvey Mudd/biophotonics/code/data/input_data_USAF.mat"
@@ -24,10 +25,11 @@ imSz = len(I[:,:,0])
 
 freqXY, con, radP, xI, yI, uI, vI, XYmid = calCoord(freqUV, imSz, dpix_c,mag, NA, wavelength)
 sigmaG = 2
-avgFI2 = calFI(I,xI,yI,XYmid, radP,sigmaG)
+FIdiv, FIdivG, FI, w_2NA = calFI(I,xI,yI,XYmid, radP,sigmaG)
 fig,ax = plt.subplots(1,1)
-him = ax.imshow(np.abs(avgFI2[:,:,0]),norm=colors.LogNorm())
+him = ax.imshow(np.abs(FIdivG[:,:,0]),norm=colors.LogNorm())
 plt.show()
+calDF(FI,XYmid)
 
 
 

@@ -27,11 +27,12 @@ def calDF(FI, XYmid):
         Kidx, c1,c2 = kMeans2Cluster(DC)
     DF = np.zeros(FI.shape[2])
     if c1 < c2 :
-        DF = ~Kidx
+        DF = 1-Kidx
     else:
         DF = Kidx
     print("DF: ", np.count_nonzero(DF==1))
     print("BF: ", np.count_nonzero(DF==0))
+    print("Indices: ",np.where(DF == 0))
 
 
     

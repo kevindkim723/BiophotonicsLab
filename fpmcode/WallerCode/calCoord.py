@@ -13,8 +13,10 @@ def calCoord(freqUV,imSz,dpix_c,mag,NA,wavelength):
     con = imSz * dpix_c/mag
 
     #kx, ky vectors
-    uCent = freqUV[:,0] 
-    vCent = freqUV[:,1]
+    #also reshapes 1D row vectors into column vectors
+
+    uCent = freqUV[:,0][:,np.newaxis]
+    vCent = freqUV[:,1][:,np.newaxis]
     #index of middle of image
     xMid = imSz//2 
     yMid = imSz//2
@@ -26,10 +28,10 @@ def calCoord(freqUV,imSz,dpix_c,mag,NA,wavelength):
     #new pixel indices in terms of kx, ky?
     #basically k-space coordinates in terms of pixels.
     xCent = xMid + uCent * con
-    yCent = yMid + uCent * con
+    yCent = yMid + vCent * con
 
-    freqXY=(xCent, yCent)
-    XYmid = (xMid, yMid)
+    freqXY=np.concatenate((xCent, yCent),axis=1)
+    XYmid = np.array([xMid, yMid])
 
     #Radius of NA (in pixels)
     radP = NA * con / wavelength

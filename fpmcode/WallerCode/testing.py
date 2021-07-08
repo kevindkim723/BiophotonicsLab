@@ -8,6 +8,7 @@ from calFI import calFI
 from calDF import calDF
 import scipy.io as sio
 from old import gradientImage
+from cart2Pol import cart2Pol
 fname = "/home/kevin/Harvey Mudd/biophotonics/Angle_SelfCalibration-master/data/LED_cheekCell_comp_misaligned_input.mat"
 fname2 = "/home/kevin/Harvey Mudd/biophotonics/code/data/input_data_USAF.mat"
 data_fname = os.path.normpath(fname)
@@ -26,14 +27,7 @@ imSz = len(I[:,:,125])
 
 freqXY, con, radP, xI, yI, uI, vI, XYmid = calCoord(freqUV, imSz, dpix_c,mag, NA, wavelength)
 sigmaG = 2
-FIdiv, FIdivG, FI, w_2NA = calFI(I,xI,yI,XYmid, radP,sigmaG)
-fig,ax = plt.subplots(1,1)
-twins= (np.abs(np.log(FIdivG[:,:,69])))
-a,b = gradientImage(twins)
-him = ax.imshow(twins)
-print(freqXY[0].shape, "FREQ")
-plt.show()
-calDF(FI,XYmid)
+cart2Pol(freqXY, XYmid)
 
 
 

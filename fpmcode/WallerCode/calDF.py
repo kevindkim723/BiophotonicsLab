@@ -36,5 +36,5 @@ def calDF(FI, XYmid):
 
 
     
-    return DF
+    return DF.astype(int)
 

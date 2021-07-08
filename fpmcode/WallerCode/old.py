@@ -174,7 +174,6 @@ def findEdge(im, imseq,kxm,kym,cutoffFrequency):
 
 
 
-seq_shifted ,seq = shiftCompare(0,-4.5)
 
 
 

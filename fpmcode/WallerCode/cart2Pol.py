@@ -16,9 +16,9 @@ def cart2Pol(XY,XYmid):
     centD = centD[:,np.newaxis]
     theta = theta[:,np.newaxis]
 
-    RTh = np.concatenate((centD,theta),axis=1)
+    DTh = np.concatenate((centD,theta),axis=1)
     
-    return RTh
+    return DTh
 
     
 

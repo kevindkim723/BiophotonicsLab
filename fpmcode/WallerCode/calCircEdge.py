@@ -7,6 +7,7 @@ import numpy as np
 from scipy.ndimage.filters import gaussian_filter
 import cv2
 import random
+from radialAverage import radialAverage
 
 def calCircEdge(FIdivG, I, radP, freqDTh, XYmid, xI, yI, sigmaG, rScan, thScan, dScan, calRad, con, wavelength):
 
@@ -20,7 +21,7 @@ def calCircEdge(FIdivG, I, radP, freqDTh, XYmid, xI, yI, sigmaG, rScan, thScan, 
     print("FIdivG.shape: {}".format(FIdivG.shape))
     print("number of brightfields: {}".format(numImg))
 
-    offsetRad = np.arange(-rScan[0],rScan[0]+rScan[1],rScan[1]) #row vector of potential radii to test (-2,-1.5,...,2)
+    offsetRad = np.arange(-rScan[0],rScan[0]+rScan[1],rScan[1])[::-1] #row vector of potential radii to test (-2,-1.5,...,2)
     offsetTh = np.arange(-thScan[0,0], thScan[0,0] + thScan[0,1],thScan[0,1]) #row vector of potential theta in degrees to test  (-5,-4.75,...,5) 
     offsetDi = np.arange(-dScan[0,0], dScan[0,0] + dScan[0,1],dScan[0,1])#row vector of potential circle center distances to test (-20,-19,...,20)
     done = False
@@ -41,6 +42,8 @@ def calCircEdge(FIdivG, I, radP, freqDTh, XYmid, xI, yI, sigmaG, rScan, thScan, 
 
         #radV: radius to test
         radV = offsetRad + rad
+        #reshape into column vector
+        radV = radV[:,np.newaxis]
         
         #select 20 images at random from the set of brightfields
         if numImg > 20:
@@ -51,10 +54,15 @@ def calCircEdge(FIdivG, I, radP, freqDTh, XYmid, xI, yI, sigmaG, rScan, thScan, 
             imgI = np.linspace(0,numImg-1, numImg) 
         PDIfr = np.zeros(numImg)
         print("imgI: {}".format(imgI))
-        for jj in range(numImg):
-            centDV = offsetDi + centD2(imgI[jj]) #potential circle center distances. centD2 is the expected circle center, while offsetDi is the row vectors of scanning values.
+        print("numImg: {}".format(numImg))
+        print("range of numImg: {}".format(numImg))
+        print("len centD2: {}".format(len(centD2)))
+        
+        for jj in range(len(imgI)):
+            print("JJ failed?: {}".format(jj))
+            centDV = offsetDi + centD2[imgI[jj]] #potential circle center distances. centD2 is the expected circle center, while offsetDi is the row vectors of scanning values.
             centDV[centDV<0] = [] #we can't work with negative indices!
-            pixMean = radialAverage 
+            pixMean = radialAverage(FIdivG[:,:,imgI[jj]],rad, radV, offsetTh+theta2[imgI[jj]],centDV)
 
 
         done = True

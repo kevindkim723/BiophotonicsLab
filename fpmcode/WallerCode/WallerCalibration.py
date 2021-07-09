@@ -34,7 +34,7 @@ FIdiv, FIdivG, FI, w_2NA = calFI(I,xI,yI,XYmid, radP,sigmaG)
 
 
 fig,ax = plt.subplots(1,1)
-twins= (np.abs(np.log(FIdivG[:,:,69])))
+twins= (np.abs(np.log(FIdivG[:,:,223])))
 a,b = gradientImage(twins)
 him = ax.imshow(twins)
 print(freqXY[0].shape, "FREQ")

@@ -54,6 +54,8 @@ thetaV = thetaV[np.newaxis,:]
 print("distV: " , distV)
 print("angleV: " , angleV)
 print("thetaV: " , thetaV)
-calArc(radP,distV, thetaV, angleV) 
+arcMat, numA2 = calArc(radP,distV, thetaV, angleV) 
+print(arcMat)
+print(numA2)
 
 

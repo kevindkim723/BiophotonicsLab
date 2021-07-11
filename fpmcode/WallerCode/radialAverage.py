@@ -7,6 +7,7 @@ import numpy as np
 from scipy.ndimage.filters import gaussian_filter
 import cv2
 from wrapTo180 import wrapTo180
+from calArc import calArc
 '''
 radius: radius defined by optical system (radius we are trying to correct)
 testRadius: column vector of test radii
@@ -14,7 +15,7 @@ testTheta: column vector of test thetas defined from the x axis to the circle ce
 testDist: column vector of test distances to the circle centers
 '''
 def radialAverage(img, radius, testRadius,testTheta, testDist):
-    testTheta = wrapTo180(testTheta)
+    testTheta = wrapTo180(testTheta)[np.newaxis,:]
     xI,yI = np.meshgrid(np.arange(img.shape[1]),np.arange(img.shape[0]))
     xMid = img.shape[1]//2
     yMid = img.shape[0]//2
@@ -27,24 +28,24 @@ def radialAverage(img, radius, testRadius,testTheta, testDist):
     circleTheta = circleTheta[np.newaxis,:]
 
     numA = circleTheta.shape[1]
-    print("testRadius : {}".format(testRadius))
+    '''print("testRadius : {}".format(testRadius))
     print("numA shape: {}".format(numA))
     print("numTh shape: {}".format(numTh))
     print("numD shape: {}".format(numD))
-    print("circleTheta shape: {}".format(circleTheta.shape))
+    print("circleTheta shape: {}".format(circleTheta.shape))'''
 
     #rMat: 21x129x21x41 repeated matrix of the testRadii
     #aMat: 21x129x21x41 repeated matrix of angles from (-180,180)
     rMat = np.tile(testRadius[:,:,np.newaxis,np.newaxis],(1,numA,numTh,numD))#i swear this line took me so long...
     aMat = np.tile(circleTheta[:,:,np.newaxis,np.newaxis],(numR,1,numTh,numD))#i swear this line took me so long...
-    print("rMat shape: {}".format(rMat.shape))
-    print("aMat shape: {}".format(aMat.shape))
+    #print("rMat shape: {}".format(rMat.shape))
+    #print("aMat shape: {}".format(aMat.shape))
 
     #rcos, rsin vectors are respective x, y components of the edges of circles defined by testRadius vector (test radii)
     rcos = rMat * np.cos(aMat)
     rsin = rMat * np.sin(aMat)
 
-    arcMat, numA2 = calArc(radius, testDist, testTheta, circleTheta)
+    calArc(radius, testDist, testTheta, circleTheta)
 
 
 

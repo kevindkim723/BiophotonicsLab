@@ -13,6 +13,7 @@ def calCircEdge(FIdivG, I, radP, freqDTh, XYmid, xI, yI, sigmaG, rScan, thScan, 
 
     #unwrap circle center distance (KX/KY) and theta column vectors
     centD2 = freqDTh[:,0]
+    ##print("CENTD2: {}".format(centD2))
     theta2 = freqDTh[:,1]
 
     imSz = FIdivG.shape
@@ -53,15 +54,16 @@ def calCircEdge(FIdivG, I, radP, freqDTh, XYmid, xI, yI, sigmaG, rScan, thScan, 
         else:
             imgI = np.linspace(0,numImg-1, numImg) 
         PDIfr = np.zeros(numImg)
-        print("imgI: {}".format(imgI))
+        '''print("imgI: {}".format(imgI))
         print("numImg: {}".format(numImg))
         print("range of numImg: {}".format(numImg))
-        print("len centD2: {}".format(len(centD2)))
+        print("len centD2: {}".format(len(centD2)))'''
+        #print("offsetDi:{}".format(offsetDi))
         
         for jj in range(len(imgI)):
             print("JJ failed?: {}".format(jj))
             centDV = offsetDi + centD2[imgI[jj]] #potential circle center distances. centD2 is the expected circle center, while offsetDi is the row vectors of scanning values.
-            centDV[centDV<0] = [] #we can't work with negative indices!
+            centDV = centDV[centDV>=0]
             pixMean = radialAverage(FIdivG[:,:,imgI[jj]],rad, radV, offsetTh+theta2[imgI[jj]],centDV)
 
 

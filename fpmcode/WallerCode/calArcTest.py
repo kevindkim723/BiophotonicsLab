@@ -1,3 +1,4 @@
+#program to test calArc using specific parameters from vals.in
 import matplotlib.pyplot as plt
 from matplotlib import colors
 import numpy as np
@@ -10,8 +11,11 @@ import scipy.io as sio
 from old import gradientImage
 from cart2Pol import cart2Pol
 from calCircEdge import calCircEdge
+from calArc import calArc
 fname = "/home/kevin/Harvey Mudd/biophotonics/Angle_SelfCalibration-master/data/LED_cheekCell_comp_misaligned_input.mat"
+
 fname2 = "/home/kevin/Harvey Mudd/biophotonics/code/data/input_data_USAF.mat"
+vals = open('vals.in', 'r')
 data_fname = os.path.normpath(fname)
 data_fname2 = os.path.normpath(fname2)
 data = sio.loadmat(data_fname,struct_as_record=False,squeeze_me=True)
@@ -39,8 +43,17 @@ cart2Pol(freqXY, XYmid)
 FIdiv, FIdivG, FI, w_2NA = calFI(I,xI,yI,XYmid, radP,sigmaG)
 DF = calDF(FI, XYmid)
 freqDTh = cart2Pol(freqXY, XYmid)
+lines = vals.readlines()
+distV = np.array(lines[1].split()).astype(float)
+thetaV = np.array(lines[2].split()).astype(float)
+angleV = np.array(lines[0].split()).astype(float)
 
-calCircEdge(FIdivG[:,:,np.where(DF!=1)[0]], I, radP, freqDTh[np.where(DF!=1)[0],:], XYmid, xI, yI, sigmaG, rScan, thScan, dScan, calRad, con, wavelength)
-
+distV = distV[np.newaxis,:]
+angleV = angleV[np.newaxis,:]
+thetaV = thetaV[np.newaxis,:]
+print("distV: " , distV)
+print("angleV: " , angleV)
+print("thetaV: " , thetaV)
+calArc(radP,distV, thetaV, angleV) 
 
 

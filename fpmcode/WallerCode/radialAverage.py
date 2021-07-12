@@ -14,7 +14,15 @@ testRadius: column vector of test radii
 testTheta: column vector of test thetas defined from the x axis to the circle center distances
 testDist: column vector of test distances to the circle centers
 '''
-def radialAverage(img, radius, testRadius,testTheta, testDist):
+def radialAverage(img, radius, testRadius,testTheta, testDist,jj):
+    f = open("vals.out", "a")
+    '''I want to write out the 
+    jj
+    testTheta
+    testDist
+    testAngles
+    (the parameters for calArc essentially because if the parameters are right, then the function should run succesfully...
+    '''
     testTheta = wrapTo180(testTheta)[np.newaxis,:]
     xI,yI = np.meshgrid(np.arange(img.shape[1]),np.arange(img.shape[0]))
     xMid = img.shape[1]//2
@@ -44,6 +52,20 @@ def radialAverage(img, radius, testRadius,testTheta, testDist):
     #rcos, rsin vectors are respective x, y components of the edges of circles defined by testRadius vector (test radii)
     rcos = rMat * np.cos(aMat)
     rsin = rMat * np.sin(aMat)
+    f.write("*" * 40)
+    f.write("\n")
+    f.write("image #: " + str(jj)+"\n")
+    f.write("radius: " + str(radius)+"\n")
+    f.write("circle Theta:\n")
+    f.write(np.array_str(circleTheta))
+    f.write("\n")
+    f.write("test Dist:\n")
+    f.write(np.array_str(testDist))
+    f.write("\n")
+    f.write("test Theta:\n")
+    f.write(np.array_str(testTheta))
+    f.write("\n")
+    f.close()
 
     calArc(radius, testDist, testTheta, circleTheta)
 

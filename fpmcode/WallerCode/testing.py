@@ -10,6 +10,9 @@ import scipy.io as sio
 from old import gradientImage
 from cart2Pol import cart2Pol
 from calCircEdge import calCircEdge
+f = open("vals.out","w")
+f.truncate(0)
+f.close()
 fname = "/home/kevin/Harvey Mudd/biophotonics/Angle_SelfCalibration-master/data/LED_cheekCell_comp_misaligned_input.mat"
 fname2 = "/home/kevin/Harvey Mudd/biophotonics/code/data/input_data_USAF.mat"
 data_fname = os.path.normpath(fname)

@@ -19,8 +19,8 @@ def calCircEdge(FIdivG, I, radP, freqDTh, XYmid, xI, yI, sigmaG, rScan, thScan, 
     imSz = FIdivG.shape
     numImg = imSz[2]
 
-    print("FIdivG.shape: {}".format(FIdivG.shape))
-    print("number of brightfields: {}".format(numImg))
+    #print("FIdivG.shape: {}".format(FIdivG.shape))
+    #print("number of brightfields: {}".format(numImg))
 
     offsetRad = np.arange(-rScan[0],rScan[0]+rScan[1],rScan[1])[::-1] #row vector of potential radii to test (-2,-1.5,...,2)
     offsetTh = np.arange(-thScan[0,0], thScan[0,0] + thScan[0,1],thScan[0,1]) #row vector of potential theta in degrees to test  (-5,-4.75,...,5) 
@@ -64,7 +64,7 @@ def calCircEdge(FIdivG, I, radP, freqDTh, XYmid, xI, yI, sigmaG, rScan, thScan, 
             print("JJ failed?: {}".format(jj))
             centDV = offsetDi + centD2[imgI[jj]] #potential circle center distances. centD2 is the expected circle center, while offsetDi is the row vectors of scanning values.
             centDV = centDV[centDV>=0]
-            pixMean = radialAverage(FIdivG[:,:,imgI[jj]],rad, radV, offsetTh+theta2[imgI[jj]],centDV)
+            pixMean = radialAverage(FIdivG[:,:,imgI[jj]],rad, radV, offsetTh+theta2[imgI[jj]],centDV,imgI[jj])
 
 
         done = True

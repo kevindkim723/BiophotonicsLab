@@ -1,3 +1,4 @@
+#program to test calArc using specific parameters from vals.in
 import matplotlib.pyplot as plt
 from matplotlib import colors
 import numpy as np
@@ -10,11 +11,12 @@ import scipy.io as sio
 from old import gradientImage
 from cart2Pol import cart2Pol
 from calCircEdge import calCircEdge
-f = open("vals.out","w")
-f.truncate(0)
-f.close()
+from calArc import calArc
+from radialAverage import radialAverage
 fname = "/home/kevin/Harvey Mudd/biophotonics/Angle_SelfCalibration-master/data/LED_cheekCell_comp_misaligned_input.mat"
+
 fname2 = "/home/kevin/Harvey Mudd/biophotonics/code/data/input_data_USAF.mat"
+vals = open('vals2.in', 'r')
 data_fname = os.path.normpath(fname)
 data_fname2 = os.path.normpath(fname2)
 data = sio.loadmat(data_fname,struct_as_record=False,squeeze_me=True)
@@ -42,5 +44,25 @@ cart2Pol(freqXY, XYmid)
 FIdiv, FIdivG, FI, w_2NA = calFI(I,xI,yI,XYmid, radP,sigmaG)
 DF = calDF(FI, XYmid)
 freqDTh = cart2Pol(freqXY, XYmid)
+lines = vals.readlines()
+jj = int(lines[0])
+testR = np.array(lines[1].split()).astype(float)
+distV = np.array(lines[2].split()).astype(float)
+thetaV = np.array(lines[3].split()).astype(float)
 
-calCircEdge(FIdivG[:,:,np.where(DF!=1)[0]], I, radP, freqDTh[np.where(DF!=1)[0],:], XYmid, xI, yI, sigmaG, rScan, thScan, dScan, calRad, con, wavelength)
+#reshape
+testR = testR[:, np.newaxis]
+distV = distV[np.newaxis,:]
+"""print("testRadii: " , testR)
+print("distV: " , distV)
+print("thetaV: " , thetaV)"""
+print("jj: {}".format(jj))
+print("radP: {}".format(radP))
+print("testR shape: {}".format(testR.shape))
+print("thetaV shape: {}".format(thetaV.shape))
+print("distV shape: {}".format(distV.shape))
+
+arcMat, numA2 = radialAverage(FIdivG[:,:,jj], radP, testR, thetaV, distV,jj)
+vals.close()
+
+

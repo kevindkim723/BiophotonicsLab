@@ -55,7 +55,5 @@ print("distV: " , distV)
 print("angleV: " , angleV)
 print("thetaV: " , thetaV)
 arcMat, numA2 = calArc(radP,distV, thetaV, angleV) 
-print(arcMat)
 print(numA2)
-
 

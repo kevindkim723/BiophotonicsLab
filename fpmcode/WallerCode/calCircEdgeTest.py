@@ -59,15 +59,13 @@ def calCircEdge(FIdivG, I, radP, freqDTh, XYmid, xI, yI, sigmaG, rScan, thScan, 
         print("range of numImg: {}".format(numImg))
         print("len centD2: {}".format(len(centD2)))'''
         #print("offsetDi:{}".format(offsetDi))
+        print(np.array_str(imgI))
+        return FIdivG[:,:,0]
         
-        for jj in range(len(imgI)):
-            print("JJ failed?: {}".format(imgI[jj]))
+        """for jj in range(len(imgI)):
+            print("JJ failed?: {}".format(jj))
             centDV = offsetDi + centD2[imgI[jj]] #potential circle center distances. centD2 is the expected circle center, while offsetDi is the row vectors of scanning values.
             centDV = centDV[centDV>=0]
             pixMean = radialAverage(FIdivG[:,:,imgI[jj]],rad, radV, offsetTh+theta2[imgI[jj]],centDV,imgI[jj])
-
-
-        done = True
-
-    
-    
+        """
+        done=True

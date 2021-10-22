@@ -1,0 +1,22 @@
+from math import sqrt
+
+def gradientImage(im):
+    gr1 = np.zeros((len(im), len(im[0])))
+    gr2 = np.zeros((len(gr1), len(gr1[0])))
+    print(gr1.shape)
+    for i in range(1,len(im)-1):
+        for j in range(1,len(im[0])-1):
+            grady = im.item(i,j+1) - im.item(i,j-1)
+            gradx =im.item(i+1,j)-im.item(i-1,j)
+            gr1[i,j] = sqrt(gradx**2 + grady**2)
+    for i in range(1,len(gr1)-1):
+        for j in range(1,len(gr1[0])-1):
+            grady = gr1.item(i,j+1) - gr1.item(i,j-1)
+            gradx =gr1.item(i+1,j)-gr1.item(i-1,j)
+            gr2[i,j] = sqrt(gradx**2 + grady**2)
+    
+    fig, ax = plt.subplots(1, 2)
+    him0 = ax.imshow(gr1)
+    
+    
+            
